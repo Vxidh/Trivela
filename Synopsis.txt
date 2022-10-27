@@ -1,0 +1,11 @@
+EXPECTED GOALS
+Synopsis:
+
+Expected goals (or xG) measures the quality of a chance by calculating the likelihood that it will be scored from a particular position 
+on the pitch during a particular phase of play. For example, Ronaldo scoring a goal from outside the 6-yard box against Manchester City could be 0.75.
+Higher the xG, higher the chance of the goal being scored. An xG of one cannot exist as no shot taken in football is 100% guaranteed.
+xG measures the probability that a shot will result in a goal based on a number of factors. 
+Such factors include the distance from where the shot was taken, angle with respect to the goal line, the game state (what is the score), if it was a header, if the shot came during a counter attack and other factors. 
+For the purpose of simplicity, our exploration will focus on just three of these factors.
+
+This project takes previous stats from teams in different leagues (Premier League, La Liga etc)
