@@ -9,3 +9,7 @@ Such factors include the distance from where the shot was taken, angle with resp
 For the purpose of simplicity, our exploration will focus on just three of these factors.
 
 This project takes previous stats from teams in different leagues (Premier League, La Liga etc)
+
+Programming Language Used: Python 3
+Modules used: understat, PySimpleGUI
+Pre-Requisite Software/Hardware required: Windows XP, 4GB RAM
