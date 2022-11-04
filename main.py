@@ -1,5 +1,6 @@
 '''
 Changes needed: 1) Need to add SQL interface
+                2) Add features: League Fixtures, Shots in a particular match, league stats, team fixtures, current league standings
 NOTES: 1) understat returns data in the form of a list with dictionaries as the elements
        2) keys are: 'id', 'player_name', 'games', 'time', 'goals', 'xG', 'assists', 'xA', 'shots', 'key_passes', 'yellow_cards',
        'red_cards', 'position', 'npg', 'npxG', 'xGchain', 'xGbuildup', 
@@ -43,6 +44,7 @@ def EPL_window():
         team_data('epl',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+
 def LaLiga_Window():
     psg.theme('HotDogStand')
     layout_=[[psg.Text('Hola! Bienvenido a la liga')],
@@ -129,9 +131,7 @@ def RFPL_Window():
         team_data('RFPL',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
-
-
-
+        
 window = psg.Window('The Footballer', layout, size=(500, 200))
 
 while True:
