@@ -1,3 +1,11 @@
+'''
+Changes needed: 1) Need to add SQL interface
+NOTES: 1) understat returns data in the form of a list with dictionaries as the elements
+       2) keys are: 'id', 'player_name', 'games', 'time', 'goals', 'xG', 'assists', 'xA', 'shots', 'key_passes', 'yellow_cards',
+       'red_cards', 'position', 'npg', 'npxG', 'xGchain', 'xGbuildup', 
+       3) Might need to add ASCII library to accomodate for the spanish characters in player names
+       4) Runs on python 3.7 only
+'''
 import asyncio
 import json
 from understat import Understat
