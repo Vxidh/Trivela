@@ -12,6 +12,20 @@ import json
 from understat import Understat
 import aiohttp
 import PySimpleGUI as psg
+import mysql.connector as msc
+def database_creation(n):
+    dub = msc.connect(host='localhost',username='root',password='sql123')
+    cursor=dub.cursor()
+
+    cursor.execute('create database if not exists expectedgoals;')
+    cursor.execute('use expectedgoals;')
+    cursor.execute('create table team_data\
+                    (id varchar(4) primary key, player_name varchar(30) not null, games int, time int,goals int,xG decimal,\
+                    assists int, xA decimal, shots int, key_passes int, yellow_cards int, red_cards int);')
+    for i in n:
+        cursor.execute("insert into table team_data(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
+                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']")
+    
 def team_data(n,y,t):
     async def main():
             async with aiohttp.ClientSession() as session:
