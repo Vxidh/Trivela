@@ -1,15 +1,9 @@
 EXPECTED GOALS
 Synopsis:
+This project aims to create an application to display different football related statistics with a mouse click. The main module used for retrieving the data is understats which collects data and provides it to us and we use SQL to order the data neatly and display it to the user through the means of the very same application. Thus, this project uses Python-SQL interface.
 
-Expected goals (or xG) measures the quality of a chance by calculating the likelihood that it will be scored from a particular position 
-on the pitch during a particular phase of play. For example, Ronaldo scoring a goal from outside the 6-yard box against Manchester City could be 0.75.
-Higher the xG, higher the chance of the goal being scored. An xG of one cannot exist as no shot taken in football is 100% guaranteed.
-xG measures the probability that a shot will result in a goal based on a number of factors. 
-Such factors include the distance from where the shot was taken, angle with respect to the goal line, the game state (what is the score), if it was a header, if the shot came during a counter attack and other factors. 
-For the purpose of simplicity, our exploration will focus on just three of these factors.
-
-This project takes previous stats from teams in different leagues (Premier League, La Liga etc)
+The application titled 'Trivela' gives data in different leagues (EPL, La Liga, Ligue 1, Bundesliga, Serie A, RFPL), provides team fixtures, individual player statistics and so on.
 
 Programming Language Used: Python 3
-Modules used: understat, PySimpleGUI
-Pre-Requisite Software/Hardware required: Windows XP, 4GB RAM
+Modules used: understat, PySimpleGUI, python-mysql connector
+Pre-Requisite Software/Hardware required: Windows XP, 4GB RAM, mysql, python 3.7, an internet connection
