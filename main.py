@@ -24,7 +24,7 @@ def database_creation(n):
                     assists int, xA decimal, shots int, key_passes int, yellow_cards int, red_cards int);')
     for i in n:
         cursor.execute("insert into table team_data(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
-                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']")
+                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']);")
     
 def team_data(n,y,t):
     async def main():
@@ -34,12 +34,15 @@ def team_data(n,y,t):
                 print(json.dumps(data))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
+
 psg.theme('DarkPurple4')
+
 layout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
         [psg.Button('EPL', font=('Times New Roman',12)),psg.Button('La Liga', font=('Times New Roman',12)),
         psg.Button('Bundesliga', font=('Times New Roman',12)),psg.Button('Serie A', font=('Times New Roman',12)),
         psg.Button('Ligue 1', font=('Times New Roman',12)),psg.Button('RFPL', font=('Times New Roman',12))],
         [psg.Button('QUIT',font=('Georgia',12))]]
+
 def EPL_window():
     psg.theme('LightBlue')
     layout_=[[psg.Text('Welcome to the English Premier League')],
