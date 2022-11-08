@@ -1,10 +1,3 @@
-"""
-https://understat.readthedocs.io/en/latest/classes/understat.html#the-functions
-https://www.fantasyfootballfix.com/blog-index/how-we-calculate-expected-goals-xg/
-
-"""
-
-
 import asyncio
 import json
 

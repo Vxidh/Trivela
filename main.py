@@ -1,30 +1,64 @@
 '''
 Changes needed: 1) Need to add SQL interface
-                2) Add features: League Fixtures, Shots in a particular match, league stats, team fixtures, current league standings
+                2) Add features: League Fixtures, league stats, team fixtures, current league standings
 NOTES: 1) understat returns data in the form of a list with dictionaries as the elements
        2) keys are: 'id', 'player_name', 'games', 'time', 'goals', 'xG', 'assists', 'xA', 'shots', 'key_passes', 'yellow_cards',
        'red_cards', 'position', 'npg', 'npxG', 'xGchain', 'xGbuildup', 
+       i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
+                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']
        3) Might need to add ASCII library to accomodate for the spanish characters in player names
        4) Runs on python 3.7 only
 '''
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 import asyncio
 import json
 from understat import Understat
 import aiohttp
 import PySimpleGUI as psg
 import mysql.connector as msc
-def database_creation(n):
+def database_ls(n):
+    dub = msc.connect(host='localhost',username='root',password='sql123')
+    cursor=dub.cursor()
+    cursor.execute('create database if not exists expectedgoals;')
+    cursor.execute('use expectedgoals;')
+
+    cursor.execute('drop table if exists league_stats;')
+    cursor.execute('create table league_stats\
+                    (league_id varchar(20) primary key, league_name varchar(20), h varchar(30), a varchar(30), hxg varchar(30), axg varchar(30)\
+                    year varchar(10), month varchar(10), matches varchar(20));')
+    
+    for i in n:
+        cursor.execute("insert into table league_stats(%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
+            i['matches']))
+
+def database_lt(n):
+    dub = msc.connect(host='localhost',username='root',password='sql123')
+    cursor=dub.cursor()
+    cursor.execute('create database if not exists expectedgoals;')
+    cursor.execute('use expectedgoals;')
+
+    cursor.execute('drop table if exists league_table;')
+    cursor.execute('create table league_table\
+                    (Team varchar(20), Matches varchar(20), Wins varchar(10), Draws varchar(10), Defeats varchar(10), Goals Scored varchar(10), Goals scored against varchar(10),\
+                        Points varchar(20), Expected Goals varchar(20), Expected Goals Against varchar(20), Expected Points varchar(20));')
+
+    for i in (n):
+        cursor.execute('insert into table league_table(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',())
+
+def database_td(n):
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
 
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
+    cursor.execute('drop table if exists team_data')
     cursor.execute('create table team_data\
-                    (id varchar(4) primary key, player_name varchar(30) not null, games int, time int,goals int,xG decimal,\
-                    assists int, xA decimal, shots int, key_passes int, yellow_cards int, red_cards int);')
+                    (id varchar(4) primary key, player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20),\
+                    assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20));')
     for i in n:
-        cursor.execute("insert into table team_data(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
-                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']);")
+        cursor.execute("insert into table team_data(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
+                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
     
 def team_data(n,y,t):
     async def main():

@@ -1,14 +1,16 @@
 import PySimpleGUI as psg
+my_img = psg.Image(filename='MainLogo.png', key='_CAMIMAGE_')
 def Main_Window():
     psg.theme('DarkBlue')
-    main_layout=[[psg.Image('MainLogo.png')],
+    main_layout=[[psg.Column([[my_img]], justification='center')],
     [psg.Text('Click any button to go ahead')],
     [psg.Button('LEAGUE DATA', font=('Times New Roman',13)), psg.Button('PLAYER STATS', font=('Times New Roman',13))],
-    [psg.Button('TEAM FIXTURES', font=('Times New Roman',13))], psg.Button('LEAGUE STANDINGS',font=('Times New Roman',13))]
+    [psg.Button('TEAM FIXTURES', font=('Times New Roman',13)), psg.Button('LEAGUE STANDINGS',font=('Times New Roman',13))],
+    [psg.Button('Quit', font=('Times New Roman',12))]]
     main_window = psg.Window('Trivela', main_layout, size=(500,500))
     while True:
         event, values = main_window.read()
-        if event in (None, 'Quit'):
+        if event == 'Quit':
             break
         elif event == 'LEAGUE DATA':
             league_stats()
