@@ -183,7 +183,7 @@ def RFPL_Window():
         if events1 in (None, 'Quit'):
             break
         
-window = psg.Window('The Footballer', layout, size=(500, 200))
+window = psg.Window('Trivela', layout, size=(500, 200))
 
 while True:
     event, values = window.read()
