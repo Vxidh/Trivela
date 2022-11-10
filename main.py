@@ -17,7 +17,7 @@ from understat import Understat
 import aiohttp
 import PySimpleGUI as psg
 import mysql.connector as msc
-def database_ls(n):
+def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
     cursor.execute('create database if not exists expectedgoals;')
@@ -32,7 +32,7 @@ def database_ls(n):
         cursor.execute("insert into table league_stats(%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
             i['matches']))
 
-def database_lt(n):
+def database_lt(n): #League Table 
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
     cursor.execute('create database if not exists expectedgoals;')
@@ -44,9 +44,9 @@ def database_lt(n):
                         Points varchar(20), Expected Goals varchar(20), Expected Goals Against varchar(20), Expected Points varchar(20));')
 
     for i in (n):
-        cursor.execute('insert into table league_table(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',())
+        cursor.execute('insert into table league_table(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11]))
 
-def database_td(n):
+def database_td(n): #Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
 
@@ -60,7 +60,37 @@ def database_td(n):
         cursor.execute("insert into table team_data(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
                         i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
     
-def team_data(n,y,t):
+def league_stats(l,m): #Understat for league data
+    async def main():
+            async with aiohttp.ClientSession() as session:
+                understat = Understat(session)
+                data = await understat.get_stats({"league": l, "month": m})
+                d=json.dumps(data)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+
+def league_table(l,s): #Understat for league standings
+    async def main():
+            async with aiohttp.ClientSession() as session:
+                understat = Understat(session)
+                data = await understat.get_league_table(l,s)
+                for i in data:
+                    i.pop(9)
+                    del i[10:16]
+                    print(i)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+
+def team_fixtures(t,s): #Understat for team fixtures
+    async def main():
+        async with aiohttp.ClientSession() as session:
+            understat = Understat(session)
+            results = await understat.get_team_fixtures(t,int(s))
+            print(json.dumps(results))
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+
+def team_data(n,y,t): #Understat for team data
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
@@ -68,15 +98,7 @@ def team_data(n,y,t):
                 print(json.dumps(data))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
-
-psg.theme('DarkPurple4')
-
-layout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
-        [psg.Button('EPL', font=('Times New Roman',12)),psg.Button('La Liga', font=('Times New Roman',12)),
-        psg.Button('Bundesliga', font=('Times New Roman',12)),psg.Button('Serie A', font=('Times New Roman',12)),
-        psg.Button('Ligue 1', font=('Times New Roman',12)),psg.Button('RFPL', font=('Times New Roman',12))],
-        [psg.Button('QUIT',font=('Georgia',12))]]
-
+ 
 def EPL_window():
     psg.theme('LightBlue')
     layout_=[[psg.Text('Welcome to the English Premier League')],
@@ -182,30 +204,47 @@ def RFPL_Window():
         team_data('RFPL',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
-        
-window = psg.Window('Trivela', layout, size=(500, 200))
 
-while True:
-    event, values = window.read()
-    if event in (None, 'Quit'):
-        break
-    elif event == 'EPL':
-        EPL_window()
-    elif event == 'La Liga':
-        LaLiga_Window()
-    elif event == 'Bundesliga':
-        Bundes_Window()
-    elif event == 'Serie A':
-        SerieA_Window()
-    elif event == 'Ligue 1':
-        Ligue1_Window()
-    elif event == 'RFPL':
-        RFPL_Window()
+
+def TeamData_Window():
+    psg.theme('DarkPurple4')
+
+    tdlayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+            [psg.Button('EPL', font=('Times New Roman',12)),psg.Button('La Liga', font=('Times New Roman',12)),
+            psg.Button('Bundesliga', font=('Times New Roman',12)),psg.Button('Serie A', font=('Times New Roman',12)),
+            psg.Button('Ligue 1', font=('Times New Roman',12)),psg.Button('RFPL', font=('Times New Roman',12))],
+            [psg.Button('QUIT',font=('Georgia',12))]]
     
+    TDwin=psg.Window('Team Data',tdlayout)
+    while True:
+        event, values = TDwin.read()
+        if event == 'QUIT':
+            break
+        elif event == 'EPL':
+            EPL_window()
+        elif event == 'La Liga':
+            LaLiga_Window()
+        elif event == 'Bundesliga':
+            Bundes_Window()
+        elif event == 'Serie A':
+            SerieA_Window()
+        elif event == 'Ligue 1':
+            Ligue1_Window()
+        elif event == 'RFPL':
+            RFPL_Window()
 
-window.close()
+def LeagueStats_Window():
+    lslayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
+        [psg.Text('Choose your preferred month: ',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['1','2','3', '4','5','6','7','8','9','10','11','12'],key='month')],
+        [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]
+    ]
+    LSwin=psg.Window('League Stats',lslayout)
 
-
-
-
-
+    while True:
+        event,values = LSwin.read()
+        if event == 'QUIT':
+            break
+        elif event == 'CONTINUE':
+            league_stats(values['team'],values['month'])
