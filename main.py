@@ -95,8 +95,8 @@ def EPL_window():
             'Liverpool','Brighton','West Ham','Brentford','Everton','Crystal Palace','Bournemouth',
             'Aston Villa','Southampton','Leicester','Leeds','Wolverhampton Wanderers','Nottingham Forest'],key='team')],
             [psg.Combo(['2014','2015','2016','2017','2018','2019','2020','2021','2022'],key='year')],
-            [psg.Column( [[psg.Button('CONTINUE', font=('Times New Roman',12))]], [[psg.Button('Quit', font=('Times New Roman',12))]],justification='center')],
-            ]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]
+    ]
 
     eplw=psg.Window('English Premier League',layout_)
     
@@ -135,7 +135,7 @@ def Bundes_Window():
             [psg.Combo(['Union Berlin','Bayern Munich','Freiburg','Borussia Dortmund','Eintracht Frankfurt','RasenBallsport Leizpig',
             'Hoffenheim','Werder Bremen','Mainz 05','FC Cologne','Borussia M.Gladbach','Wolfsburg','Augsburg',
             'Hertha Berlin','VfB Stuttgart','Bayer Leverkusen','Bochum','Schalke 04'],key='team')],
-            [psg.Text('Choose year')]
+            [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
     bundw=psg.Window('La Liga',layout_)
@@ -148,7 +148,7 @@ def Bundes_Window():
 
 def SerieA_Window():
     psg.theme('DarkTeal7')
-    layout_=[[psg.Column([[Serie_A]], justification='center')]
+    layout_=[[psg.Column([[Serie_A]], justification='center')],
         [psg.Text('Ciao! Benvenuto alla Serie A')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Napoli','Atalanta','AC Milan','Roma','Lazio','Inter',
@@ -169,20 +169,20 @@ def Ligue1_Window():
     psg.theme('DarkTeal')
     layout_=[[psg.Column([[Ligue1]], justification='center')],
         [psg.Text('Bonjour! Bienvenue en ligue 1')],
-            [psg.Text('Choose your team')],
+            [psg.Text('CHOOSE YOUR TEAM')],
             [psg.Combo(['Paris Saint Germain','Lens','Rennes','Lorient','Marseille','Monaco',
             'Lille','Lyon','Clermont Foot','Nice','Toulouse','Troyes','Reims',
             'Montpellier','Nantes','Auxerre','Strasbourg','Brest','Ajaccio','Angers'],key='team')],
-            [psg.Text('Choose year')],
+            [psg.Text('CHOOSE YEAR')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     ligue1w=psg.Window('La Liga',layout_)
     
     while True:
         events1, values1=ligue1w.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1    == 'CONTINUE':
             team_data('Ligue 1',int(values1['year']),values1['team'])
 
 def RFPL_Window():
@@ -245,7 +245,7 @@ def LeagueStats_Window():
         event,values = LSwin.read()
         if event in (None, 'Quit'):
             break
-        else:
+        elif event == 'CONTINUE':
             league_stats(values['team'],values['month'])
 
 def LeagueTable_Window():
@@ -261,18 +261,18 @@ def LeagueTable_Window():
         event,values = LTwin.read()
         if event in (None, 'Quit'):
             break
-        else:
+        elif event == 'CONTINUE':
             league_table(values['team'],values['year'])
 
 def MainWindow():
     psg.theme('DarkBlue')
     main_layout=[[psg.Column([[Main_Logo]], justification='center')],
-    [psg.Text('CLICK ANY BUTTON TO GO AHEAD')],
+    [psg.Text('CLICK ANY BUTTON TO GO AHEAD',font=('Times New Roman',15))],
     [psg.Button('TEAM DATA', font=('Times New Roman',14)), psg.Button('LEAGUE STATS', font=('Times New Roman',14)),psg.Button('LEAGUE STANDINGS',font=('Times New Roman',14))],
     [psg.Column([[psg.Button('QUIT',font=('Times New Roman',13))]],justification='center')]
     ]
 
-    main_window = psg.Window('Trivela', main_layout, size=(500,500))
+    main_window = psg.Window('Trivela', main_layout, resizable = True, size=(550,450))
 
     while True:
         event, values = main_window.read()
