@@ -6,12 +6,13 @@ from understat import Understat
 import aiohttp
 import PySimpleGUI as psg
 import mysql.connector as msc
-Main_Logo=psg.Image(filename='MainLogo.png', key='_SUUUI')
+Main_Logo=psg.Image(filename='MainLogo.png', key='_SUUUI_')
 Premier_League=psg.Image(filename='PremierLeague.png', key='_HAALAND_')
 La_Liga=psg.Image(filename='LaLiga.png',key='_LEWANDISNEY_')
 Ligue1=psg.Image(filename='Ligue1.png',key='_MBAPPAYPAL_')
+Bundesliga_Image=psg.Image(filename='Bundesliga.png',key='_SADIO_')
 Serie_A=psg.Image(filename='SerieA.png',key='_DYBALA_')
-RFPL=psg.Image(filename='RFPL.png',key='_IRREVELANT_')
+RFPL_Image=psg.Image(filename='RFPL.png',key='_IRREVELANT_')
 def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
@@ -87,13 +88,14 @@ def team_data(n,y,t): #Understat for team data
  
 def EPL_window():
     psg.theme('LightBlue')
-    layout_=[[psg.Text('Welcome to the English Premier League')],
+    layout_=[[psg.Column([[Premier_League]], justification='center')],
+        [psg.Text('Welcome to the English Premier League')],
             [psg.Text('Choose the year and team data from below')],
             [psg.Combo(['Arsenal','Manchester City','Tottenham', 'Newcastle United','Chelsea','Manchester United','Fulham',
             'Liverpool','Brighton','West Ham','Brentford','Everton','Crystal Palace','Bournemouth',
             'Aston Villa','Southampton','Leicester','Leeds','Wolverhampton Wanderers','Nottingham Forest'],key='team')],
             [psg.Combo(['2014','2015','2016','2017','2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]
+            [psg.Column( [[psg.Button('CONTINUE', font=('Times New Roman',12))]], [[psg.Button('Quit', font=('Times New Roman',12))]],justification='center')],
             ]
 
     eplw=psg.Window('English Premier League',layout_)
@@ -107,7 +109,8 @@ def EPL_window():
 
 def LaLiga_Window():
     psg.theme('HotDogStand')
-    layout_=[[psg.Text('Hola! Bienvenido a la liga')],
+    layout_=[[psg.Column([[La_Liga]], justification='center')],
+        [psg.Text('Hola! Bienvenido a la liga')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Real Madrid','Barcelona','Atletico Madrid','Real Betis','Real Sociedad','Athletic Club','Osasuna','Villareal',
             'Rayo Vallecano','Valencia','Real Valladolid','Mallorca','Almeria','Getafe','Espanyol','Celta Vigo','Girona','Sevilla','Cadiz',
@@ -126,7 +129,8 @@ def LaLiga_Window():
 
 def Bundes_Window():
     psg.theme('DarkBrown4')
-    layout_=[[psg.Text('Hallo! Willkommen in der Bundesliga')],
+    layout_=[[psg.Column([[Bundesliga_Image]], justification='center')],
+            [psg.Text('Hallo! Willkommen in der Bundesliga')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Union Berlin','Bayern Munich','Freiburg','Borussia Dortmund','Eintracht Frankfurt','RasenBallsport Leizpig',
             'Hoffenheim','Werder Bremen','Mainz 05','FC Cologne','Borussia M.Gladbach','Wolfsburg','Augsburg',
@@ -144,7 +148,8 @@ def Bundes_Window():
 
 def SerieA_Window():
     psg.theme('DarkTeal7')
-    layout_=[[psg.Text('Ciao! Benvenuto alla Serie A')],
+    layout_=[[psg.Column([[Serie_A]], justification='center')]
+        [psg.Text('Ciao! Benvenuto alla Serie A')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Napoli','Atalanta','AC Milan','Roma','Lazio','Inter',
             'Juventus','Udinese','Torino','Salernitana','Sassuolo','Bologna','Fiorentina',
@@ -162,7 +167,8 @@ def SerieA_Window():
 
 def Ligue1_Window():
     psg.theme('DarkTeal')
-    layout_=[[psg.Text('Bonjour! Bienvenue en ligue 1')],
+    layout_=[[psg.Column([[Ligue1]], justification='center')],
+        [psg.Text('Bonjour! Bienvenue en ligue 1')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Paris Saint Germain','Lens','Rennes','Lorient','Marseille','Monaco',
             'Lille','Lyon','Clermont Foot','Nice','Toulouse','Troyes','Reims',
@@ -181,7 +187,8 @@ def Ligue1_Window():
 
 def RFPL_Window():
     psg.theme('DarkRed1')
-    layout_=[[psg.Text('Privet! Dobro pozhalovat v RFPL')],
+    layout_=[[psg.Column([[RFPL_Image]], justification='center')],
+        [psg.Text('Privet! Dobro pozhalovat v RFPL')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Zenit St. Petersburg','Spartak Moscow','CSKA Moscow','FC Rostov','Dinamo Moscow','FC Krasnodar',
             'FK Akhmat','FC Orenburg','PFC Sochi','Krylya Sovetov Samara','Ural','Nizhny Novgorod','Fakel',
