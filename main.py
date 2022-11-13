@@ -94,9 +94,10 @@ def EPL_window():
     
     while True:
         events1, values1=eplw.read()
-        team_data('epl',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('epl',int(values1['year']),values1['team'])
 
 def LaLiga_Window():
     psg.theme('HotDogStand')
@@ -112,9 +113,10 @@ def LaLiga_Window():
     lalw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=lalw.read()
-        team_data('La Liga',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('La Liga',int(values1['year']),values1['team'])
 
 def Bundes_Window():
     psg.theme('DarkBrown4')
@@ -129,9 +131,10 @@ def Bundes_Window():
     bundw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=bundw.read()
-        team_data('Bundesliga',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('Bundesliga',int(values1['year']),values1['team'])
 
 def SerieA_Window():
     psg.theme('DarkTeal7')
@@ -146,9 +149,10 @@ def SerieA_Window():
     seriaw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=seriaw.read()
-        team_data('Serie A',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('Serie A',int(values1['year']),values1['team'])
 
 def Ligue1_Window():
     psg.theme('DarkTeal')
@@ -164,9 +168,10 @@ def Ligue1_Window():
     
     while True:
         events1, values1=ligue1w.read()
-        team_data('Ligue 1',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('Ligue 1',int(values1['year']),values1['team'])
 
 def RFPL_Window():
     psg.theme('DarkRed1')
@@ -181,9 +186,10 @@ def RFPL_Window():
     rfplw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=rfplw.read()
-        team_data('RFPL',int(values1['year']),values1['team'])
         if events1 in (None, 'Quit'):
             break
+        else:
+            team_data('RFPL',int(values1['year']),values1['team'])
 
 
 def TeamData_Window():
