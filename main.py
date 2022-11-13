@@ -6,6 +6,12 @@ from understat import Understat
 import aiohttp
 import PySimpleGUI as psg
 import mysql.connector as msc
+Main_Logo=psg.Image(filename='MainLogo.png', key='_SUUUI')
+Premier_League=psg.Image(filename='PremierLeague.png', key='_HAALAND_')
+La_Liga=psg.Image(filename='LaLiga.png',key='_LEWANDISNEY_')
+Ligue1=psg.Image(filename='Ligue1.png',key='_MBAPPAYPAL_')
+Serie_A=psg.Image(filename='SerieA.png',key='_DYBALA_')
+RFPL=psg.Image(filename='RFPL.png',key='_IRREVELANT_')
 def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
@@ -253,11 +259,11 @@ def LeagueTable_Window():
 
 def MainWindow():
     psg.theme('DarkBlue')
-    main_layout=[[psg.Image('MainLogo.png')],
-    [psg.Text('Click any button to go ahead')],
-    [psg.Button('TEAM DATA', font=('Times New Roman',13)), psg.Button('LEAGUE STATS', font=('Times New Roman',13))],
-    [psg.Button('LEAGUE STANDINGS',font=('Times New Roman',13))],
-    [psg.Button('QUIT',font=('Times New Roman',13))]]
+    main_layout=[[psg.Column([[Main_Logo]], justification='center')],
+    [psg.Text('CLICK ANY BUTTON TO GO AHEAD')],
+    [psg.Button('TEAM DATA', font=('Times New Roman',14)), psg.Button('LEAGUE STATS', font=('Times New Roman',14)),psg.Button('LEAGUE STANDINGS',font=('Times New Roman',14))],
+    [psg.Column([[psg.Button('QUIT',font=('Times New Roman',13))]],justification='center')]
+    ]
 
     main_window = psg.Window('Trivela', main_layout, size=(500,500))
 
