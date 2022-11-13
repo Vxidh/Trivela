@@ -1,14 +1,3 @@
-'''
-Changes needed: 1) Need to add SQL interface
-                2) Add features: League Fixtures, league stats, team fixtures, current league standings
-NOTES: 1) understat returns data in the form of a list with dictionaries as the elements
-       2) keys are: 'id', 'player_name', 'games', 'time', 'goals', 'xG', 'assists', 'xA', 'shots', 'key_passes', 'yellow_cards',
-       'red_cards', 'position', 'npg', 'npxG', 'xGchain', 'xGbuildup', 
-       i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
-                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']
-       3) Might need to add ASCII library to accomodate for the spanish characters in player names
-       4) Runs on python 3.7 only
-'''
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 import asyncio
@@ -59,7 +48,7 @@ def database_td(n): #Team Data
     for i in n:
         cursor.execute("insert into table team_data(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
                         i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
-    
+
 def league_stats(l,m): #Understat for league data
     async def main():
             async with aiohttp.ClientSession() as session:
@@ -78,15 +67,6 @@ def league_table(l,s): #Understat for league standings
                     i.pop(9)
                     del i[10:16]
                     print(i)
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-
-def team_fixtures(t,s): #Understat for team fixtures
-    async def main():
-        async with aiohttp.ClientSession() as session:
-            understat = Understat(session)
-            results = await understat.get_team_fixtures(t,int(s))
-            print(json.dumps(results))
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
@@ -248,3 +228,42 @@ def LeagueStats_Window():
             break
         elif event == 'CONTINUE':
             league_stats(values['team'],values['month'])
+
+def LeagueTable_Window():
+    ltlayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
+        [psg.Text('Choose your preferred month: ',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['2014','2015','2016', '2017','2018','2019','2020','2021','2022'],key='year')],
+        [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]]
+    
+    LTwin=psg.Window('League Table',ltlayout)
+
+    while True:
+        event,values = LTwin.read()
+        if event == 'QUIT':
+            break
+        elif event == 'CONTINUE':
+            league_table(values['team'],values['year'])
+
+def MainWindow():
+    psg.theme('DarkBlue')
+    main_layout=[[psg.Image('MainLogo.png')],
+    [psg.Text('Click any button to go ahead')],
+    [psg.Button('TEAM DATA', font=('Times New Roman',13)), psg.Button('LEAGUE STATS', font=('Times New Roman',13))],
+    [psg.Button('LEAGUE STANDINGS',font=('Times New Roman',13))],
+    [psg.Button('QUIT',font=('Times New Roman',13))]]
+
+    main_window = psg.Window('Trivela', main_layout, size=(500,500))
+
+    while True:
+        event, values = main_window.read()
+        if event in (None, 'QUIT'):
+            break
+        elif event == 'LEAGUE DATA':
+            LeagueStats_Window()
+        elif event == 'TEAM DATA':
+            TeamData_Window()
+        elif event == 'LEAGUE STANDINGS':
+            LeagueTable_Window
+
+MainWindow()
