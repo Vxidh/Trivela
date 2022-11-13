@@ -1,27 +1,36 @@
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+import asyncio
+import json
+from understat import Understat
+import aiohttp
 import PySimpleGUI as psg
+import mysql.connector as msc
 my_img = psg.Image(filename='MainLogo.png', key='_CAMIMAGE_')
-def Main_Window():
-    psg.theme('DarkBlue')
-    main_layout=[[psg.Column([[my_img]], justification='center')],
-    [psg.Text('Click any button to go ahead')],
-    [psg.Button('LEAGUE DATA', font=('Times New Roman',13)), psg.Button('PLAYER STATS', font=('Times New Roman',13))],
-    [psg.Button('TEAM FIXTURES', font=('Times New Roman',13)), psg.Button('LEAGUE STANDINGS',font=('Times New Roman',13))],
-    [psg.Button('Quit', font=('Times New Roman',12))]]
-    main_window = psg.Window('Trivela', main_layout, size=(500,500))
+def LeagueTable_Window():
+    ltlayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
+        [psg.Text('Choose your preferred month: ',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['2014','2015','2016', '2017','2018','2019','2020','2021','2022'],key='year')],
+        [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]]
+    
+    LTwin=psg.Window('League Table',ltlayout)
+
     while True:
-        event, values = main_window.read()
-        if event == 'Quit':
+        event,values = LTwin.read()
+        if event == 'QUIT':
             break
-        elif event == 'LEAGUE DATA':
-            league_stats()
-def league_stats():
-    psg.theme('DarkPurple4')
-    layout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
-            [psg.Button('EPL', font=('Times New Roman',12)),psg.Button('La Liga', font=('Times New Roman',12)),
-            psg.Button('Bundesliga', font=('Times New Roman',12)),psg.Button('Serie A', font=('Times New Roman',12)),
-            psg.Button('Ligue 1', font=('Times New Roman',12)),psg.Button('RFPL', font=('Times New Roman',12))],
-            [psg.Button('QUIT',font=('Georgia',12))]]
-    window = psg.Window('The Footballer', layout, size=(500, 200))
-    while True:
-        event, values = window.read()
-Main_Window()
+        elif event == 'CONTINUE':
+            league_table(values['team'],values['year'])
+def league_table(l,s): #Understat for league standings
+    async def main():
+            async with aiohttp.ClientSession() as session:
+                understat = Understat(session)
+                data = await understat.get_league_table(l,s)
+                for i in data:
+                    i.pop(9)
+                    del i[10:16]
+                    print(i)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+LeagueTable_Window()

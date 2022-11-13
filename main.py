@@ -204,7 +204,7 @@ def TeamData_Window():
     TDwin=psg.Window('Team Data',tdlayout)
     while True:
         event, values = TDwin.read()
-        if event == 'QUIT':
+        if event in (None, 'Quit'):
             break
         elif event == 'EPL':
             EPL_window()
@@ -230,9 +230,9 @@ def LeagueStats_Window():
 
     while True:
         event,values = LSwin.read()
-        if event == 'QUIT':
+        if event in (None, 'Quit'):
             break
-        elif event == 'CONTINUE':
+        else:
             league_stats(values['team'],values['month'])
 
 def LeagueTable_Window():
@@ -246,9 +246,9 @@ def LeagueTable_Window():
 
     while True:
         event,values = LTwin.read()
-        if event == 'QUIT':
+        if event in (None, 'Quit'):
             break
-        elif event == 'CONTINUE':
+        else:
             league_table(values['team'],values['year'])
 
 def MainWindow():
@@ -265,11 +265,11 @@ def MainWindow():
         event, values = main_window.read()
         if event in (None, 'QUIT'):
             break
-        elif event == 'LEAGUE DATA':
+        elif event == 'LEAGUE STATS':
             LeagueStats_Window()
         elif event == 'TEAM DATA':
             TeamData_Window()
         elif event == 'LEAGUE STANDINGS':
-            LeagueTable_Window
+            LeagueTable_Window()
 
 MainWindow()
