@@ -25,7 +25,7 @@ def database_ls(n): #Overall League stats
                     year varchar(10), month varchar(10), matches varchar(20));')
     
     for i in n:
-        cursor.execute("insert into league_stats(%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
+        cursor.execute("insert into league_stats values(%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
             i['matches']))
 
 def database_lt(n): #League Table 
@@ -40,7 +40,7 @@ def database_lt(n): #League Table
                         Points varchar(20), Expected Goals varchar(20), Expected Goals Against varchar(20), Expected Points varchar(20));')
 
     for i in (n):
-        cursor.execute('insert into league_table(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11]))
+        cursor.execute('insert into league_table values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11]))
 
 def database_td(n): #Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
@@ -53,7 +53,7 @@ def database_td(n): #Team Data
                     (id varchar(4) primary key, player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20),\
                     assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20));')
     for i in n:
-        cursor.execute("insert into team_data(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
+        cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
                         i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
 
 def league_stats(l,m): #Understat for league data
