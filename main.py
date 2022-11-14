@@ -61,7 +61,7 @@ def league_stats(l,m): #Understat for league data
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
                 data = await understat.get_stats({"league": l, "month": m})
-                d=json.dumps(data)
+                database_ls(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
@@ -73,7 +73,7 @@ def league_table(l,s): #Understat for league standings
                 for i in data:
                     i.pop(9)
                     del i[10:16]
-                    print(i)
+                database_lt(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
@@ -82,7 +82,7 @@ def team_data(n,y,t): #Understat for team data
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
                 data = await understat.get_league_players(n, y, team_title=t)
-                print(json.dumps(data))
+                database_td(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
  
