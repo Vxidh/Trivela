@@ -20,13 +20,13 @@ def database_ls(n): #Overall League stats
     cursor.execute('use expectedgoals;')
 
     cursor.execute('drop table if exists league_stats;')
-    cursor.execute('create table league_stats\
-                    (league_id varchar(20), league_name varchar(20), h varchar(30), a varchar(30), hxg varchar(30), axg varchar(30)\
-                    year varchar(10), month varchar(10), matches varchar(20));')
+    cursor.execute('create table league_stats(league_id varchar(20), league_name varchar(20), h varchar(30), a varchar(30), hxg varchar(30), axg varchar(30),year varchar(10), month varchar(10), matches varchar(20));')
     
     for i in n:
-        cursor.execute("insert into league_stats values(%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
+        cursor.execute("insert into league_stats values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
             i['matches']))
+    global LS
+    LS=cursor.execute("select * from league_stats")
 
 def database_lt(n): #League Table 
     dub = msc.connect(host='localhost',username='root',password='sql123')
@@ -35,12 +35,12 @@ def database_lt(n): #League Table
     cursor.execute('use expectedgoals;')
 
     cursor.execute('drop table if exists league_table;')
-    cursor.execute('create table league_table\
-                    (Team varchar(20), Matches varchar(20), Wins varchar(10), Draws varchar(10), Defeats varchar(10), Goals Scored varchar(10), Goals scored against varchar(10),\
-                        Points varchar(20), Expected Goals varchar(20), Expected Goals Against varchar(20), Expected Points varchar(20));')
+    cursor.execute('create table league_table (Team varchar(35), Matches varchar(20), Wins varchar(10), Draws varchar(10), Defeats varchar(10), GS varchar(10), GS_against varchar(10), Points varchar(20), xG varchar(20), xG_Against varchar(20), Expected_Points varchar(20))')
 
     for i in (n):
-        cursor.execute('insert into league_table values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11]))
+        cursor.execute('insert into league_table values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
+    global LT 
+    LT=cursor.execute("select * from league_table")
 
 def database_td(n): #Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
@@ -49,18 +49,16 @@ def database_td(n): #Team Data
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
     cursor.execute('drop table if exists team_data')
-    cursor.execute('create table team_data\
-                    (id varchar(4),player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20),\
-                    assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20));')
+    cursor.execute('create table team_data(id varchar(4), player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20), assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20) )')
     for i in n:
-        cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
-                        i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
+        cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
 
 def league_stats(l,m): #Understat for league data
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
                 data = await understat.get_stats({"league": l, "month": m})
+                print(data)
                 database_ls(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
@@ -82,7 +80,9 @@ def team_data(n,y,t): #Understat for team data
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
                 data = await understat.get_league_players(n, y, team_title=t)
-                database_td(data)
+                for i in data:
+                    print(i)
+                #database_td(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
  
