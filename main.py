@@ -1,11 +1,12 @@
 import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 import asyncio
-import json
-from understat import Understat
 import aiohttp
-import PySimpleGUI as psg
 import mysql.connector as msc
+import PySimpleGUI as psg
+from understat import Understat
+
 Main_Logo=psg.Image(filename='MainLogo.png', key='_SUUUI_')
 Premier_League=psg.Image(filename='PremierLeague.png', key='_HAALAND_')
 La_Liga=psg.Image(filename='LaLiga.png',key='_LEWANDISNEY_')
@@ -95,16 +96,16 @@ def EPL_window():
             'Liverpool','Brighton','West Ham','Brentford','Everton','Crystal Palace','Bournemouth',
             'Aston Villa','Southampton','Leicester','Leeds','Wolverhampton Wanderers','Nottingham Forest'],key='team')],
             [psg.Combo(['2014','2015','2016','2017','2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]
     ]
 
     eplw=psg.Window('English Premier League',layout_)
     
     while True:
         events1, values1=eplw.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1=='CONTINUE':
             team_data('epl',int(values1['year']),values1['team'])
 
 def LaLiga_Window():
@@ -117,14 +118,14 @@ def LaLiga_Window():
             'Elche'],key='team')],
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     
     lalw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=lalw.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1=='CONTINUE':
             team_data('La Liga',int(values1['year']),values1['team'])
 
 def Bundes_Window():
@@ -137,13 +138,13 @@ def Bundes_Window():
             'Hertha Berlin','VfB Stuttgart','Bayer Leverkusen','Bochum','Schalke 04'],key='team')],
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     bundw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=bundw.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1=='CONTINUE':
             team_data('Bundesliga',int(values1['year']),values1['team'])
 
 def SerieA_Window():
@@ -156,13 +157,13 @@ def SerieA_Window():
             'Empoli','Monza','Spezia','Lecce','Sampdoria','Verona','Cremonese'],key='team')],
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     seriaw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=seriaw.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1=='CONTINUE':
             team_data('Serie A',int(values1['year']),values1['team'])
 
 def Ligue1_Window():
@@ -182,7 +183,7 @@ def Ligue1_Window():
         events1, values1=ligue1w.read()
         if events1 in (None, 'QUIT'):
             break
-        elif events1    == 'CONTINUE':
+        elif events1 == 'CONTINUE':
             team_data('Ligue 1',int(values1['year']),values1['team'])
 
 def RFPL_Window():
@@ -195,13 +196,13 @@ def RFPL_Window():
             'Lokomotiv Moscow','Khimki','Torpedo Moscow'],key='team')],
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('Quit', font=('Times New Roman',12))]]
+            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     rfplw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=rfplw.read()
-        if events1 in (None, 'Quit'):
+        if events1 in (None, 'QUIT'):
             break
-        else:
+        elif events1=='CONTINUE':
             team_data('RFPL',int(values1['year']),values1['team'])
 
 
@@ -217,7 +218,7 @@ def TeamData_Window():
     TDwin=psg.Window('Team Data',tdlayout)
     while True:
         event, values = TDwin.read()
-        if event in (None, 'Quit'):
+        if event in (None, 'QUIT'):
             break
         elif event == 'EPL':
             EPL_window()
@@ -243,7 +244,7 @@ def LeagueStats_Window():
 
     while True:
         event,values = LSwin.read()
-        if event in (None, 'Quit'):
+        if event in (None, 'QUIT'):
             break
         elif event == 'CONTINUE':
             league_stats(values['team'],values['month'])
@@ -259,7 +260,7 @@ def LeagueTable_Window():
 
     while True:
         event,values = LTwin.read()
-        if event in (None, 'Quit'):
+        if event in (None, 'QUIT'):
             break
         elif event == 'CONTINUE':
             league_table(values['team'],values['year'])
