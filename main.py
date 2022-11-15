@@ -21,7 +21,7 @@ def database_ls(n): #Overall League stats
 
     cursor.execute('drop table if exists league_stats;')
     cursor.execute('create table league_stats\
-                    (league_id varchar(20) primary key, league_name varchar(20), h varchar(30), a varchar(30), hxg varchar(30), axg varchar(30)\
+                    (league_id varchar(20), league_name varchar(20), h varchar(30), a varchar(30), hxg varchar(30), axg varchar(30)\
                     year varchar(10), month varchar(10), matches varchar(20));')
     
     for i in n:
@@ -50,7 +50,7 @@ def database_td(n): #Team Data
     cursor.execute('use expectedgoals;')
     cursor.execute('drop table if exists team_data')
     cursor.execute('create table team_data\
-                    (id varchar(4) primary key, player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20),\
+                    (id varchar(4),player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20),\
                     assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20));')
     for i in n:
         cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],\
