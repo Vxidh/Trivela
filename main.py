@@ -14,6 +14,7 @@ Ligue1=psg.Image(filename='Ligue1.png',key='_MBAPPAYPAL_')
 Bundesliga_Image=psg.Image(filename='Bundesliga.png',key='_SADIO_')
 Serie_A=psg.Image(filename='SerieA.png',key='_DYBALA_')
 RFPL_Image=psg.Image(filename='RFPL.png',key='_IRREVELANT_')
+
 def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
@@ -26,8 +27,7 @@ def database_ls(n): #Overall League stats
     for i in n:
         cursor.execute("insert into league_stats values(%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['league_id'],i['league'],i['h'],i['a'],i['hxg'],i['axg'],i['year'],i['month'],\
             i['matches']))
-    global LS
-    LS=cursor.execute("select * from league_stats")
+    dub.commit()
 
 def database_lt(n): #League Table 
     dub = msc.connect(host='localhost',username='root',password='sql123')
@@ -40,21 +40,21 @@ def database_lt(n): #League Table
 
     for i in (n):
         cursor.execute('insert into league_table values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
-    global LT 
-    LT=cursor.execute("select * from league_table")
+    dub.commit()
 
-def database_td(n): #Team Data
+def database_td(n): #SQL function for Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
 
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
     cursor.execute('drop table if exists team_data')
-    cursor.execute('create table team_data(id varchar(4), player_name varchar(30) not null, games varchar(20), time varchar(20),goals varchar(20),xG varchar(20), assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20) )')
+    cursor.execute('create table team_data(id varchar(4), player_name varchar(30), games varchar(20), time varchar(20),goals varchar(20),xG varchar(20), assists varchar(20), xA varchar(20), shots varchar(20), key_passes varchar(20), yellow_cards varchar(20), red_cards varchar(20) )')
     for i in n:
-        cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['id'],i['player_name'],i['games'],i['time'],i['xG'],i['assists'],i['xA'],i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
+        cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['id'],i['player_name'],i['games'],i['goals'],i['time'],i['xG'],i['assists'],i['xA'],i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
+    dub.commit()
 
-def league_stats(l,m): #Understat for league data
+def league_stats(l,m): #Understat for league data and displaying the tables
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
@@ -64,7 +64,7 @@ def league_stats(l,m): #Understat for league data
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
-def league_table(l,s): #Understat for league standings
+def league_table(l,s): #Understat for league standings and displaying the tables
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
@@ -76,14 +76,12 @@ def league_table(l,s): #Understat for league standings
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
-def team_data(n,y,t): #Understat for team data
+def team_data(n,y,t): #Understat for team data and displaying the tables
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
                 data = await understat.get_league_players(n, y, team_title=t)
-                for i in data:
-                    print(i)
-                #database_td(data)
+                database_td(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
  
