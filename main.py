@@ -103,7 +103,7 @@ def EPL_window():
     
     while True:
         events1, values1=eplw.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1=='CONTINUE':
             team_data('epl',int(values1['year']),values1['team'])
@@ -123,7 +123,7 @@ def LaLiga_Window():
     lalw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=lalw.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1=='CONTINUE':
             team_data('La Liga',int(values1['year']),values1['team'])
@@ -142,7 +142,7 @@ def Bundes_Window():
     bundw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=bundw.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1=='CONTINUE':
             team_data('Bundesliga',int(values1['year']),values1['team'])
@@ -161,7 +161,7 @@ def SerieA_Window():
     seriaw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=seriaw.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1=='CONTINUE':
             team_data('Serie A',int(values1['year']),values1['team'])
@@ -181,7 +181,7 @@ def Ligue1_Window():
     
     while True:
         events1, values1=ligue1w.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1 == 'CONTINUE':
             team_data('Ligue 1',int(values1['year']),values1['team'])
@@ -200,7 +200,7 @@ def RFPL_Window():
     rfplw=psg.Window('La Liga',layout_)
     while True:
         events1, values1=rfplw.read()
-        if events1 in (None, 'QUIT'):
+        if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
         elif events1=='CONTINUE':
             team_data('RFPL',int(values1['year']),values1['team'])
@@ -218,7 +218,7 @@ def TeamData_Window():
     TDwin=psg.Window('Team Data',tdlayout)
     while True:
         event, values = TDwin.read()
-        if event in (None, 'QUIT'):
+        if event == 'QUIT' or event == psg.WIN_CLOSED:
             break
         elif event == 'EPL':
             EPL_window()
@@ -244,7 +244,7 @@ def LeagueStats_Window():
 
     while True:
         event,values = LSwin.read()
-        if event in (None, 'QUIT'):
+        if event == 'QUIT' or event == psg.WIN_CLOSED:
             break
         elif event == 'CONTINUE':
             league_stats(values['team'],values['month'])
@@ -260,7 +260,7 @@ def LeagueTable_Window():
 
     while True:
         event,values = LTwin.read()
-        if event in (None, 'QUIT'):
+        if event == 'QUIT' or event == psg.WIN_CLOSED:
             break
         elif event == 'CONTINUE':
             league_table(values['team'],values['year'])
@@ -277,7 +277,7 @@ def MainWindow():
 
     while True:
         event, values = main_window.read()
-        if event in (None, 'QUIT'):
+        if event == 'QUIT' or event == psg.WIN_CLOSED:
             break
         elif event == 'LEAGUE STATS':
             LeagueStats_Window()
