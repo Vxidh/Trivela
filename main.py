@@ -58,8 +58,7 @@ def league_stats(l,m): #Understat for league data and displaying the tables
     async def main():
             async with aiohttp.ClientSession() as session:
                 understat = Understat(session)
-                data = await understat.get_stats({"league": l, "month": m})
-                print(data)
+                data = await understat.get_stats({"league": l, "month": str(m)})
                 database_ls(data)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
