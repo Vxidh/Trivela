@@ -3,4 +3,4 @@
 
 The Squad 💪 - Aayush, Monish and Vaidheesh  
 Download main.py and all the images in the SAME folder  
-Requirements:- understat, pysimplegui, python 3.7 and a potato
+Requirements:- understat, mySQL, an internet connection, pysimplegui, python 3.7 and a potato
