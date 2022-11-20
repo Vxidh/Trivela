@@ -54,6 +54,16 @@ def database_td(n): #SQL function for Team Data
         cursor.execute("insert into team_data values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(i['id'],i['player_name'],i['games'],i['goals'],i['time'],i['xG'],i['assists'],i['xA'],i['shots'],i['key_passes'],i['yellow_cards'],i['red_cards']))
     dub.commit()
 
+def league_fixtures(l):
+    async def main():
+            async with aiohttp.ClientSession() as session:
+                understat = Understat(session)
+                data = await understat.get_league_fixtures(l, int(2022))
+                for i in data:
+                    print(i)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+
 def league_stats(l,m): #Understat for league data and displaying the tables
     async def main():
             async with aiohttp.ClientSession() as session:
@@ -262,11 +272,28 @@ def LeagueTable_Window():
         elif event == 'CONTINUE':
             league_table(values['team'],values['year'])
 
+def Upcoming_LeagueFixturesWindow():
+    
+    psg.theme('DarkBrown4')
+    lflayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+        [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
+        [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]]
+
+    LFwin=psg.Window('UPCOMING LEAGUE FIXTURES',lflayout)
+
+    while True:
+        events,values=LFwin.read()
+        if events == 'QUIT' or events == psg.WIN_CLOSED:
+            break
+        elif events == 'CONTINUE':
+            league_fixtures(values['team'])
+
 def MainWindow():
     psg.theme('DarkBlue')
     main_layout=[[psg.Column([[Main_Logo]], justification='center')],
     [psg.Text('CLICK ANY BUTTON TO GO AHEAD',font=('Times New Roman',15))],
-    [psg.Button('TEAM DATA', font=('Times New Roman',14)), psg.Button('LEAGUE STATS', font=('Times New Roman',14)),psg.Button('LEAGUE STANDINGS',font=('Times New Roman',14))],
+    [psg.Button('TEAM DATA', font=('Times New Roman',14)), psg.Button('LEAGUE STATS', font=('Times New Roman',14))],
+    [psg.Button('LEAGUE STANDINGS',font=('Times New Roman',14)), psg.Button('UPCOMING LEAGUE FIXTURES',font=('Times New Roman',14))],
     [psg.Column([[psg.Button('QUIT',font=('Times New Roman',13))]],justification='center')]
     ]
 
@@ -282,5 +309,7 @@ def MainWindow():
             TeamData_Window()
         elif event == 'LEAGUE STANDINGS':
             LeagueTable_Window()
+        elif event == 'UPCOMING LEAGUE FIXTURES':
+            Upcoming_LeagueFixturesWindow()
 
 MainWindow()
