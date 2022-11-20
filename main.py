@@ -42,6 +42,19 @@ def database_lt(n): #League Table
         cursor.execute('insert into league_table values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
     dub.commit()
 
+def database_lf(n):
+    dub = msc.connect(host='localhost',username='root',password='sql123')
+    cursor=dub.cursor()
+    cursor.execute('create database if not exists expectedgoals;')
+    cursor.execute('use expectedgoals;')
+
+    cursor.execute('drop table if exists league_fixtures')
+    cursor.execute('create table league_fixtures (ID varchar(10), Result varchar(10), home varchar(45), away varchar(45), date_time varchar(30)')
+
+    for i in (n):
+        cursor.execute('insert into league_fixtures values(%s,%s,%s,%s,%s)',(i['id'], i['isResult'], i['h'], i['away'], i['date_time']))
+    dub.commit()
+
 def database_td(n): #SQL function for Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
@@ -60,7 +73,9 @@ def league_fixtures(l):
                 understat = Understat(session)
                 data = await understat.get_league_fixtures(l, int(2022))
                 for i in data:
-                    print(i)
+                    del data['goals']
+                    del data['xG']
+                
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 
