@@ -55,6 +55,7 @@ def database_lf(n):
         cursor.execute('insert into league_fixtures values(%s,%s,%s,%s,%s)',(i['id'], i['isResult'], i['h'], i['away'], i['date_time']))
     dub.commit()
 
+
 def database_td(n): #SQL function for Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
     cursor=dub.cursor()
