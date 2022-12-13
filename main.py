@@ -193,13 +193,13 @@ def Ligue1_Window():
     psg.theme('DarkTeal')
     layout_=[[psg.Column([[Ligue1]], justification='center')],
         [psg.Text('Bonjour! Bienvenue en ligue 1')],
-            [psg.Text('CHOOSE YOUR TEAM')],
-            [psg.Combo(['Paris Saint Germain','Lens','Rennes','Lorient','Marseille','Monaco',
-            'Lille','Lyon','Clermont Foot','Nice','Toulouse','Troyes','Reims',
-            'Montpellier','Nantes','Auxerre','Strasbourg','Brest','Ajaccio','Angers'],key='team')],
-            [psg.Text('CHOOSE YEAR')],
-            [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
-            [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
+        [psg.Text('CHOOSE YOUR TEAM')],
+        [psg.Combo(['Paris Saint Germain','Lens','Rennes','Lorient','Marseille','Monaco',
+        'Lille','Lyon','Clermont Foot','Nice','Toulouse','Troyes','Reims',
+        'Montpellier','Nantes','Auxerre','Strasbourg','Brest','Ajaccio','Angers'],key='team')],
+        [psg.Text('CHOOSE YEAR')],
+        [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
+        [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     ligue1w=psg.Window('La Liga',layout_)
     
     while True:
