@@ -1,9 +1,12 @@
 EXPECTED GOALS
 Synopsis:
-This project aims to create an application to display different football related statistics with a mouse click. The main module used for retrieving the data is understats which collects data and provides it to us and we use SQL to order the data neatly and display it to the user through the means of the very same application. Thus, this project uses Python-SQL interface.
+This project aims to create an application to display different football related statistics with a mouse click.
+The main module used for retrieving the data is understats which collects data and provides it to us. 
+We use SQL to order the data neatly and display it to the user through the means of the very same application. 
+Thus, this project uses a Python-SQL interface for organizing data.
 
 The application titled 'Trivela' gives data in different leagues (EPL, La Liga, Ligue 1, Bundesliga, Serie A, RFPL), provides team fixtures, individual player statistics and so on.
 
-Programming Language Used: Python 3
+Programming Language Used: Python 3.7
 Modules used: understat, PySimpleGUI, python-mysql connector
-Pre-Requisite Software/Hardware required: Windows XP, 4GB RAM, mysql, python 3.7, an internet connection
+Pre-Requisite Software/Hardware required: Windows XP, 4GB RAM, MySQL, python 3.7, an internet connection to fetch the data
