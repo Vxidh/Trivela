@@ -7,13 +7,13 @@ import mysql.connector as msc
 import PySimpleGUI as psg
 from understat import Understat
 
-Main_Logo=psg.Image(filename='MainLogo.png', key='_SUUUI_')
-Premier_League=psg.Image(filename='PremierLeague.png', key='_HAALAND_')
-La_Liga=psg.Image(filename='LaLiga.png',key='_LEWANDISNEY_')
-Ligue1=psg.Image(filename='Ligue1.png',key='_MBAPPAYPAL_')
-Bundesliga_Image=psg.Image(filename='Bundesliga.png',key='_SADIO_')
-Serie_A=psg.Image(filename='SerieA.png',key='_DYBALA_')
-RFPL_Image=psg.Image(filename='RFPL.png',key='_IRREVELANT_')
+Main_Logo=psg.Image(filename='/images/MainLogo.png', key='_SUUUI_')
+Premier_League=psg.Image(filename='/images/PremierLeague.png', key='_HAALAND_')
+La_Liga=psg.Image(filename='/images/LaLiga.png',key='_LEWANDISNEY_')
+Ligue1=psg.Image(filename='/images/Ligue1.png',key='_MBAPPAYPAL_')
+Bundesliga_Image=psg.Image(filename='/images/Bundesliga.png',key='_SADIO_')
+Serie_A=psg.Image(filename='/images/SerieA.png',key='_DYBALA_')
+RFPL_Image=psg.Image(filename='/images/RFPL.png',key='_IRREVELANT_')
 
 def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
