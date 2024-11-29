@@ -1,23 +1,23 @@
 import warnings
 
-warnings.filterwarnings("ignore", category=DeprecationWarning) 
+warnings.filterwarnings("ignore", category=DeprecationWarning)  #asyncio was throwing a deprecation warning
 import asyncio
 import aiohttp
 import mysql.connector as msc
 import PySimpleGUI as psg
 from understat import Understat
 
-Main_Logo=psg.Image(filename='/images/MainLogo.png', key='_SUUUI_')
-Premier_League=psg.Image(filename='/images/PremierLeague.png', key='_HAALAND_')
-La_Liga=psg.Image(filename='/images/LaLiga.png',key='_LEWANDISNEY_')
-Ligue1=psg.Image(filename='/images/Ligue1.png',key='_MBAPPAYPAL_')
-Bundesliga_Image=psg.Image(filename='/images/Bundesliga.png',key='_SADIO_')
-Serie_A=psg.Image(filename='/images/SerieA.png',key='_DYBALA_')
-RFPL_Image=psg.Image(filename='/images/RFPL.png',key='_IRREVELANT_')
+Main_Logo = psg.Image(filename='/images/MainLogo.png', key='_SUUUI_')
+Premier_League = psg.Image(filename='/images/PremierLeague.png', key='_HAALAND_')
+La_Liga = psg.Image(filename='/images/LaLiga.png',key='_LEWANDISNEY_')
+Ligue1 = psg.Image(filename='/images/Ligue1.png',key='_MBAPPAYPAL_')
+Bundesliga_Image = psg.Image(filename='/images/Bundesliga.png',key='_SADIO_')
+Serie_A = psg.Image(filename='/images/SerieA.png',key='_DYBALA_')
+RFPL_Image = psg.Image(filename='/images/RFPL.png',key='_IRREVELANT_')
 
 def database_ls(n): #Overall League stats
     dub = msc.connect(host='localhost',username='root',password='sql123')
-    cursor=dub.cursor()
+    cursor = dub.cursor()
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
 
@@ -31,7 +31,7 @@ def database_ls(n): #Overall League stats
 
 def database_lt(n): #League Table 
     dub = msc.connect(host='localhost',username='root',password='sql123')
-    cursor=dub.cursor()
+    cursor = dub.cursor()
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
 
@@ -44,7 +44,7 @@ def database_lt(n): #League Table
 
 def database_lf(n):
     dub = msc.connect(host='localhost',username='root',password='sql123')
-    cursor=dub.cursor()
+    cursor = dub.cursor()
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
 
@@ -58,7 +58,7 @@ def database_lf(n):
 
 def database_td(n): #SQL function for Team Data
     dub = msc.connect(host='localhost',username='root',password='sql123')
-    cursor=dub.cursor()
+    cursor = dub.cursor()
 
     cursor.execute('create database if not exists expectedgoals;')
     cursor.execute('use expectedgoals;')
@@ -122,18 +122,18 @@ def EPL_window():
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]
     ]
 
-    eplw=psg.Window('English Premier League',layout_)
+    eplw = psg.Window('English Premier League',layout_)
     
     while True:
         events1, values1=eplw.read()
         if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
-        elif events1=='CONTINUE':
+        elif events1 =='CONTINUE':
             team_data('epl',int(values1['year']),values1['team'])
 
 def LaLiga_Window():
     psg.theme('HotDogStand')
-    layout_=[[psg.Column([[La_Liga]], justification='center')],
+    layout_= [[psg.Column([[La_Liga]], justification='center')],
         [psg.Text('Hola! Bienvenido a la liga')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Real Madrid','Barcelona','Atletico Madrid','Real Betis','Real Sociedad','Athletic Club','Osasuna','Villareal',
@@ -143,17 +143,17 @@ def LaLiga_Window():
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
     
-    lalw=psg.Window('La Liga',layout_)
+    lalw = psg.Window('La Liga',layout_)
     while True:
         events1, values1=lalw.read()
         if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
-        elif events1=='CONTINUE':
+        elif events1 =='CONTINUE':
             team_data('La Liga',int(values1['year']),values1['team'])
 
 def Bundes_Window():
     psg.theme('DarkBrown4')
-    layout_=[[psg.Column([[Bundesliga_Image]], justification='center')],
+    layout_= [[psg.Column([[Bundesliga_Image]], justification='center')],
             [psg.Text('Hallo! Willkommen in der Bundesliga')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Union Berlin','Bayern Munich','Freiburg','Borussia Dortmund','Eintracht Frankfurt','RasenBallsport Leizpig',
@@ -162,17 +162,17 @@ def Bundes_Window():
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
-    bundw=psg.Window('La Liga',layout_)
+    bundw = psg.Window('La Liga',layout_)
     while True:
         events1, values1=bundw.read()
         if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
-        elif events1=='CONTINUE':
+        elif events1 == 'CONTINUE':
             team_data('Bundesliga',int(values1['year']),values1['team'])
 
 def SerieA_Window():
     psg.theme('DarkTeal7')
-    layout_=[[psg.Column([[Serie_A]], justification='center')],
+    layout_= [[psg.Column([[Serie_A]], justification='center')],
         [psg.Text('Ciao! Benvenuto alla Serie A')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Napoli','Atalanta','AC Milan','Roma','Lazio','Inter',
@@ -181,17 +181,17 @@ def SerieA_Window():
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
-    seriaw=psg.Window('La Liga',layout_)
+    seriaw = psg.Window('La Liga',layout_)
     while True:
         events1, values1=seriaw.read()
         if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
-        elif events1=='CONTINUE':
+        elif events1 == 'CONTINUE':
             team_data('Serie A',int(values1['year']),values1['team'])
 
 def Ligue1_Window():
     psg.theme('DarkTeal')
-    layout_=[[psg.Column([[Ligue1]], justification='center')],
+    layout_ = [[psg.Column([[Ligue1]], justification='center')],
         [psg.Text('Bonjour! Bienvenue en ligue 1')],
         [psg.Text('CHOOSE YOUR TEAM')],
         [psg.Combo(['Paris Saint Germain','Lens','Rennes','Lorient','Marseille','Monaco',
@@ -200,7 +200,7 @@ def Ligue1_Window():
         [psg.Text('CHOOSE YEAR')],
         [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
         [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
-    ligue1w=psg.Window('La Liga',layout_)
+    ligue1w = psg.Window('La Liga',layout_)
     
     while True:
         events1, values1=ligue1w.read()
@@ -211,7 +211,7 @@ def Ligue1_Window():
 
 def RFPL_Window():
     psg.theme('DarkRed1')
-    layout_=[[psg.Column([[RFPL_Image]], justification='center')],
+    layout_ = [[psg.Column([[RFPL_Image]], justification='center')],
         [psg.Text('Privet! Dobro pozhalovat v RFPL')],
             [psg.Text('Choose your team')],
             [psg.Combo(['Zenit St. Petersburg','Spartak Moscow','CSKA Moscow','FC Rostov','Dinamo Moscow','FC Krasnodar',
@@ -220,25 +220,25 @@ def RFPL_Window():
             [psg.Text('Choose year')],
             [psg.Combo(['2014','2015','2016','2017', '2018','2019','2020','2021','2022'],key='year')],
             [psg.Button('CONTINUE', font=('Times New Roman',12)),psg.Button('QUIT', font=('Times New Roman',12))]]
-    rfplw=psg.Window('La Liga',layout_)
+    rfplw = psg.Window('La Liga',layout_)
     while True:
         events1, values1=rfplw.read()
         if events1 == 'QUIT' or events1 == psg.WIN_CLOSED:
             break
-        elif events1=='CONTINUE':
+        elif events1 =='CONTINUE':
             team_data('RFPL',int(values1['year']),values1['team'])
 
 
 def TeamData_Window():
     psg.theme('DarkPurple4')
 
-    tdlayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+    tdlayout = [[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
             [psg.Button('EPL', font=('Times New Roman',12)),psg.Button('La Liga', font=('Times New Roman',12)),
             psg.Button('Bundesliga', font=('Times New Roman',12)),psg.Button('Serie A', font=('Times New Roman',12)),
             psg.Button('Ligue 1', font=('Times New Roman',12)),psg.Button('RFPL', font=('Times New Roman',12))],
             [psg.Button('QUIT',font=('Georgia',12))]]
     
-    TDwin=psg.Window('Team Data',tdlayout)
+    TDwin = psg.Window('Team Data',tdlayout)
     while True:
         event, values = TDwin.read()
         if event == 'QUIT' or event == psg.WIN_CLOSED:
@@ -257,13 +257,13 @@ def TeamData_Window():
             RFPL_Window()
 
 def LeagueStats_Window():
-    lslayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+    lslayout = [[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
         [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
         [psg.Text('Choose your preferred month: ',size=(25,1),font='Georgia',justification='left')],
         [psg.Combo(['1','2','3', '4','5','6','7','8','9','10','11','12'],key='month')],
         [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]
     ]
-    LSwin=psg.Window('League Stats',lslayout)
+    LSwin = psg.Window('League Stats',lslayout)
 
     while True:
         event,values = LSwin.read()
@@ -273,13 +273,13 @@ def LeagueStats_Window():
             league_stats(values['team'],values['month'])
 
 def LeagueTable_Window():
-    ltlayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+    ltlayout = [[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
         [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
         [psg.Text('Choose your preferred month: ',size=(25,1),font='Georgia',justification='left')],
         [psg.Combo(['2014','2015','2016', '2017','2018','2019','2020','2021','2022'],key='year')],
         [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]]
     
-    LTwin=psg.Window('League Table',ltlayout)
+    LTwin = psg.Window('League Table',ltlayout)
 
     while True:
         event,values = LTwin.read()
@@ -291,14 +291,14 @@ def LeagueTable_Window():
 def Upcoming_LeagueFixturesWindow():
     
     psg.theme('DarkBrown4')
-    lflayout=[[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
+    lflayout = [[psg.Text('Choose your preferred League',size=(25,1),font='Georgia',justification='left')],
         [psg.Combo(['EPL','La Liga','Ligue 1', 'Serie A','RFPL'],key='team')],
         [psg.Button('CONTINUE',font=('Georgia',12)), psg.Button('QUIT',font=('Georgia',12))]]
 
-    LFwin=psg.Window('UPCOMING LEAGUE FIXTURES',lflayout)
+    LFwin = psg.Window('UPCOMING LEAGUE FIXTURES',lflayout)
 
     while True:
-        events,values=LFwin.read()
+        events,values = LFwin.read()
         if events == 'QUIT' or events == psg.WIN_CLOSED:
             break
         elif events == 'CONTINUE':
@@ -306,8 +306,8 @@ def Upcoming_LeagueFixturesWindow():
 
 def MainWindow():
     psg.theme('DarkBlue')
-    main_layout=[[psg.Column([[Main_Logo]], justification='center')],
-    [psg.Text('CLICK ANY BUTTON TO GO AHEAD',font=('Times New Roman',15))],
+    main_layout = [[psg.Column([[Main_Logo]], justification = 'center')],
+    [psg.Text('CLICK ANY BUTTON TO GO AHEAD',font = ('Times New Roman',15))],
     [psg.Button('TEAM DATA', font=('Times New Roman',14)), psg.Button('LEAGUE STATS', font=('Times New Roman',14))],
     [psg.Button('LEAGUE STANDINGS',font=('Times New Roman',14)), psg.Button('UPCOMING LEAGUE FIXTURES',font=('Times New Roman',14))],
     [psg.Column([[psg.Button('QUIT',font=('Times New Roman',13))]],justification='center')]
